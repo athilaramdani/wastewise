@@ -1,0 +1,10 @@
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/icons/wastewise_logo.png
+  android: true
+  ios: true
+  android_gravity: center
+  ios_content_mode: center
+  # Atur splash screen dark mode (opsional)
+  color_dark: "#000000"
+  image_dark: assets/icons/wastewise_logo.png

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "930993929565",
+    "project_id": "wastewise-584c7",
+    "storage_bucket": "wastewise-584c7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930993929565:android:878b890d5e6c854d06bcb4",
+        "android_client_info": {
+          "package_name": "com.wastewise.wastewise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqLLI0YbfL77838JbAdepISGA21ENM_Bg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
