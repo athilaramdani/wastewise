@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static Color primaryGreen = const Color(0xFF4CAF50); // Hijau
+  // Warna hijau utama
+  static Color primaryGreen = const Color(0xFF4CAF50);
+
+  // Tambahan warna hijau untuk gradient
+  static Color greenLight = const Color(0xFF66BB6A);
+  static Color greenDark = const Color(0xFF388E3C);
 
   // Light Theme
   static final ThemeData lightTheme = ThemeData(

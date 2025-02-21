@@ -23,4 +23,7 @@ class RegisterController extends GetxController {
       Get.snackbar('Error', e.toString());
     }
   }
+  void navigateToLogin() {
+    Get.toNamed('/login');
+  }
 }
