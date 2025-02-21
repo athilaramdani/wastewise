@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../../data/models/waste_model.dart';
 import '../../../data/providers/firebase_provider.dart';
 
@@ -18,13 +19,18 @@ class HomeController extends GetxController {
   }
 
   Future<void> fetchWasteData() async {
-    var data = await _firebaseProvider.getAllWaste();
-    wasteList.assignAll(data);
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId != null) {
+      var data = await _firebaseProvider.getWasteByUser(userId);
+      wasteList.assignAll(data);
+    }
   }
 
   Future<void> addWaste() async {
     if (wasteType.isNotEmpty && wasteAmount.value > 0) {
+      final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
       var waste = WasteModel(
+        userId: userId,
         type: wasteType.value,
         amount: wasteAmount.value,
         date: DateTime.now(),

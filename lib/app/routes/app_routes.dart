@@ -9,6 +9,7 @@ abstract class Routes {
   static const SPLASH = _Paths.SPLASH;
   static const WISEBOT = _Paths.WISEBOT;
   static const ACCOUNT = _Paths.ACCOUNT;
+  static const ACCOUNT_EDIT = _Paths.ACCOUNT_EDIT;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const SPLASH = '/splash';
   static const WISEBOT = '/wisebot';
   static const ACCOUNT = '/account';
+  static const ACCOUNT_EDIT = '/account-edit';
 }

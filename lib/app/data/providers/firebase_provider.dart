@@ -9,10 +9,13 @@ class FirebaseProvider {
     await wasteCollection.add(waste.toMap());
   }
 
-  Future<List<WasteModel>> getAllWaste() async {
-    final querySnapshot = await wasteCollection.get();
+  // Ambil data sampah berdasarkan userId
+  Future<List<WasteModel>> getWasteByUser(String userId) async {
+    final querySnapshot =
+    await wasteCollection.where('userId', isEqualTo: userId).get();
     return querySnapshot.docs
-        .map((doc) => WasteModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+        .map((doc) =>
+        WasteModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
         .toList();
   }
 
