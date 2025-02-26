@@ -20,16 +20,23 @@ class CustomBottomNavBar extends StatelessWidget {
           children: [
             // HOME
             IconButton(
-              onPressed: () => Get.offAllNamed('/home'),
+              onPressed: () {
+                if (currentIndex != 0) {
+                  Get.offAllNamed('/home');
+                }
+              },
               icon: Icon(
                 Icons.home,
                 color: currentIndex == 0 ? Colors.white : Colors.white54,
-                // jika di page Home => fill putih, jika tidak => outline/white54
               ),
             ),
             // WISEBOT
             IconButton(
-              onPressed: () => Get.offAllNamed('/wisebot'),
+              onPressed: () {
+                if (currentIndex != 1) {
+                  Get.offAllNamed('/wisebot');
+                }
+              },
               icon: Icon(
                 Icons.chat,
                 color: currentIndex == 1 ? Colors.white : Colors.white54,
@@ -37,7 +44,11 @@ class CustomBottomNavBar extends StatelessWidget {
             ),
             // ACCOUNT
             IconButton(
-              onPressed: () => Get.offAllNamed('/account'),
+              onPressed: () {
+                if (currentIndex != 2) {
+                  Get.offAllNamed('/account');
+                }
+              },
               icon: Icon(
                 Icons.person,
                 color: currentIndex == 2 ? Colors.white : Colors.white54,

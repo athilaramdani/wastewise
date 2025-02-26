@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../data/models/waste_model.dart';
@@ -8,13 +9,20 @@ class HomeController extends GetxController {
 
   var wasteList = <WasteModel>[].obs;
 
+  // username
+  var userName = ''.obs;
+
   // Form input
   var wasteType = ''.obs;
   var wasteAmount = 0.0.obs;
 
+  // Dark mode toggle
+  var isDarkMode = false.obs;
+
   @override
   void onInit() {
     super.onInit();
+    fetchUserName();
     fetchWasteData();
   }
 
@@ -23,6 +31,13 @@ class HomeController extends GetxController {
     if (userId != null) {
       var data = await _firebaseProvider.getWasteByUser(userId);
       wasteList.assignAll(data);
+    }
+  }
+
+  Future<void> fetchUserName() async {
+    final userId = FirebaseAuth.instance.currentUser?.uid;
+    if (userId != null) {
+      userName.value = await _firebaseProvider.getUserName(userId);
     }
   }
 
@@ -56,5 +71,14 @@ class HomeController extends GetxController {
   void clearInput() {
     wasteType.value = '';
     wasteAmount.value = 0.0;
+  }
+
+  void toggleTheme(bool value) {
+    isDarkMode.value = value;
+    if (value) {
+      Get.changeThemeMode(ThemeMode.dark);
+    } else {
+      Get.changeThemeMode(ThemeMode.light);
+    }
   }
 }

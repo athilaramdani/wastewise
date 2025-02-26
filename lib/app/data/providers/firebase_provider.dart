@@ -5,6 +5,10 @@ class FirebaseProvider {
   final CollectionReference wasteCollection =
   FirebaseFirestore.instance.collection('waste_records');
 
+  // Misal user disimpan di "users" collection:
+  final CollectionReference userCollection =
+  FirebaseFirestore.instance.collection('users');
+
   Future<void> addWaste(WasteModel waste) async {
     await wasteCollection.add(waste.toMap());
   }
@@ -27,5 +31,19 @@ class FirebaseProvider {
 
   Future<void> deleteWaste(String wasteId) async {
     await wasteCollection.doc(wasteId).delete();
+  }
+
+  // =====================================================
+  // BARU: Get userName
+  // =====================================================
+  Future<String> getUserName(String userId) async {
+    final docRef = userCollection.doc(userId);
+    final snapshot = await docRef.get();
+    if (snapshot.exists) {
+      final data = snapshot.data() as Map<String, dynamic>;
+      return data['username'] ?? 'UnknownUser';
+    } else {
+      return 'UnknownUser';
+    }
   }
 }

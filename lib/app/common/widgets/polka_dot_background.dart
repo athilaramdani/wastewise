@@ -1,48 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../common/theme/app_theme.dart';
 
-class PolkaDotBackground extends StatefulWidget {
-  const PolkaDotBackground({Key? key}) : super(key: key);
+class PolkaDotController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  late AnimationController animationController;
+  late Animation<double> animation;
+  final offset = 0.0.obs;
 
   @override
-  State<PolkaDotBackground> createState() => _PolkaDotBackgroundState();
-}
-
-class _PolkaDotBackgroundState extends State<PolkaDotBackground>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    // Durasi animasi misalnya 5 detik bolak-balik
-    _controller = AnimationController(
+  void onInit() {
+    super.onInit();
+    animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 5),
     )..repeat(reverse: true);
 
-    // Tween offset polka dot
-    _animation = Tween<double>(begin: 0.0, end: 15.0).animate(_controller);
+    animation = Tween<double>(begin: 0.0, end: 15.0).animate(animationController)
+      ..addListener(() {
+        offset.value = animation.value;
+      });
   }
 
   @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  void onClose() {
+    animationController.dispose();
+    super.onClose();
   }
+}
+
+class PolkaDotBackground extends StatelessWidget {
+  const PolkaDotBackground({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animation,
-      builder: (context, child) {
-        return CustomPaint(
-          painter: _PolkaDotPainter(_animation.value),
-          child: Container(), // Wajib ada child Container agar area terisi
-        );
-      },
-    );
+    // Inisialisasi controller
+    final polkaC = Get.put(PolkaDotController());
+
+    return Obx(() {
+      return CustomPaint(
+        painter: _PolkaDotPainter(polkaC.offset.value),
+        child: Container(), // agar area canvas terisi
+      );
+    });
   }
 }
 
@@ -60,10 +60,8 @@ class _PolkaDotPainter extends CustomPainter {
     const double radius = 6.0;
     const double spacing = 50.0;
 
-    // Buat pola polka dot dengan jarak spacing
     for (double y = 0; y < size.height; y += spacing) {
       for (double x = 0; x < size.width; x += spacing) {
-        // Offset horizontal & vertical diubah sedikit oleh animasi
         final dx = x + offset;
         final dy = y + offset;
         canvas.drawCircle(Offset(dx, dy), radius, paint);
@@ -73,7 +71,7 @@ class _PolkaDotPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_PolkaDotPainter oldDelegate) {
-    // Gambar ulang jika nilai offset berbeda
+    // Repaint jika offset berbeda
     return oldDelegate.offset != offset;
   }
 }

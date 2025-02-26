@@ -12,7 +12,7 @@ class LoginView extends GetView<LoginController> {
     final loginC = Get.find<LoginController>();
 
     return Scaffold(
-      // Agar area Scaffold transparan (gradient+polka dot terlihat)
+      // Agar area Scaffold transparan (gradient + polka dot terlihat)
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
@@ -30,7 +30,7 @@ class LoginView extends GetView<LoginController> {
             ),
           ),
 
-          // Polka Dot Animation
+          // Polka Dot Animation (GetX)
           const PolkaDotBackground(),
 
           // Form di tengah
@@ -57,6 +57,14 @@ class LoginView extends GetView<LoginController> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    // ========== LOGO WASTEWISE ==========
+                    Image.asset(
+                      'assets/icons/wastewise_logo.png',
+                      height: 200,
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Judul
                     const Text(
                       'Welcome Back!',
                       style: TextStyle(
@@ -65,6 +73,8 @@ class LoginView extends GetView<LoginController> {
                       ),
                     ),
                     const SizedBox(height: 16),
+
+                    // Email
                     TextField(
                       onChanged: (value) => loginC.email.value = value,
                       decoration: InputDecoration(
@@ -79,6 +89,8 @@ class LoginView extends GetView<LoginController> {
                       ),
                     ),
                     const SizedBox(height: 16),
+
+                    // Password
                     TextField(
                       onChanged: (value) => loginC.password.value = value,
                       obscureText: true,
@@ -94,6 +106,8 @@ class LoginView extends GetView<LoginController> {
                       ),
                     ),
                     const SizedBox(height: 24),
+
+                    // Tombol Login Email/Password
                     ElevatedButton(
                       onPressed: () => loginC.login(),
                       style: ElevatedButton.styleFrom(
@@ -112,7 +126,30 @@ class LoginView extends GetView<LoginController> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    // Ubah gaya teks: "Belum punya akun?" & "Register" terpisah
+
+                    // Tombol Sign-In dengan Google
+                    ElevatedButton.icon(
+                      onPressed: () => loginC.loginWithGoogle(),
+                      icon: Image.asset(
+                        'assets/icons/google_logo.png',
+                        height: 24,
+                      ),
+                      label: const Text('Sign in with Google'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12.0,
+                          horizontal: 24.0,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // "Belum punya akun?" + "Register"
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
