@@ -1,6 +1,7 @@
 # WasteWise
 Aplikasi **WasteWise** — Manajemen Sampah & Daur Ulang
-**Gambaran Singkat**
+
+## Gambaran Singkat
 Aplikasi **WasteWise** membantu pengguna dalam mengelola sampah rumah tangga maupun kantor agar lebih efisien dan ramah lingkungan. Aplikasi ini memungkinkan pengguna untuk mencatat jenis sampah, memantau jadwal pengumpulan, serta memperoleh informasi mengenai cara daur ulang. Tujuan akhirnya adalah mengurangi volume sampah yang dibuang dan meningkatkan tingkat daur ulang.
 
 ## Fitur Utama
@@ -9,7 +10,7 @@ Aplikasi **WasteWise** membantu pengguna dalam mengelola sampah rumah tangga mau
 2. **Autentikasi**: Firebase Authentication (Email/Password) dan google login.
 3. **Local Storage**: SharedPreferences untuk menyimpan sesi `isLoggedIn`.
 4. **CRUD Data Sampah**: Menggunakan Cloud Firestore.
-5. **API**: Gemini (untuk chatBotnya)
+5. **API**: Gemini (untuk chatBotnya) dan lokasi pembuangan memakai openStreetMap API
 6. **State Management**: GetX.
 7. **Tema**: Dark & Light mode bertema warna hijau. Font Poppins.
 
@@ -31,10 +32,10 @@ Aplikasi **WasteWise** membantu pengguna dalam mengelola sampah rumah tangga mau
    ```
 
 4. Setup Firebase:
-    - Buat project di Firebase Console.
-    - Download google-services.json dan GoogleService-Info.plist.
-    - Letakkan di folder android/app/ dan ios/Runner/.
-    - Update build.gradle dan AndroidManifest.xml sesuai instruksi.
+   - Buat project di Firebase Console.
+   - Download google-services.json dan GoogleService-Info.plist.
+   - Letakkan di folder android/app/ dan ios/Runner/.
+   - Update build.gradle dan AndroidManifest.xml sesuai instruksi.
 
 5. Generate splash screen:
    ```bash
@@ -68,13 +69,9 @@ Lihat di dokumentasi folder.
 
 ## Screenshot (Contoh)
 
-| Splash Screen | Login | Home |
-|---------------|-------|------|
-| | | |
-
-> Belum ditambahkan
-
----
+| Nama Page | Deskripsi | Screenshot |
+|-----------|-----------|------------|
+| HomePage | Halaman utama yang menampilkan analitik sampah, formulir pencatatan sampah, daftar sampah yang sudah dicatat, dan peta lokasi pembuangan. Fitur utama: <br>- Tampilan greeting dengan nama pengguna<br>- Toggle dark/light mode<br>- Analitik sampah harian dan mingguan<br>- Form input sampah (jenis dan berat/volume)<br>- Daftar sampah dengan fungsi edit dan hapus<br>- Peta lokasi pembuangan sampah | ![HomePage1](F:\motion\tubes\wastewise\readmeassets\homepage1.png)<br>![HomePage2](F:\motion\tubes\wastewise\readmeassets\homepage2.png)<br>![HomePage3](F:\motion\tubes\wastewise\readmeassets\homepage3.png) |
+| WiseBot | Halaman chatbot yang memungkinkan pengguna untuk berinteraksi dengan WiseBot AI. Pengguna dapat menanyakan berbagai informasi tentang pengelolaan sampah, tips daur ulang, dan praktik ramah lingkungan lainnya. | ![WiseBotPage](F:\motion\tubes\wastewise\readmeassets\wisebotpage1.png) |
 
 ## Penutup
-> blm
