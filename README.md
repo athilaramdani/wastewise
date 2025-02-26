@@ -69,9 +69,9 @@ Lihat di dokumentasi folder.
 
 ## Screenshot (Contoh)
 
-| Nama Page | Deskripsi | Screenshot |
-|-----------|-----------|------------|
-| HomePage | Halaman utama yang menampilkan analitik sampah, formulir pencatatan sampah, daftar sampah yang sudah dicatat, dan peta lokasi pembuangan. Fitur utama: <br>- Tampilan greeting dengan nama pengguna<br>- Toggle dark/light mode<br>- Analitik sampah harian dan mingguan<br>- Form input sampah (jenis dan berat/volume)<br>- Daftar sampah dengan fungsi edit dan hapus<br>- Peta lokasi pembuangan sampah | ![HomePage1](readmeassets\homepage1.png)<br>![HomePage2](readmeassets\homepage2.png)<br>![HomePage3](readmeassets\homepage3.png) |
-| WiseBot | Halaman chatbot yang memungkinkan pengguna untuk berinteraksi dengan WiseBot AI. Pengguna dapat menanyakan berbagai informasi tentang pengelolaan sampah, tips daur ulang, dan praktik ramah lingkungan lainnya. | ![WiseBotPage](readmeassets\wisebotpage1.png) |
+| Nama Page | Deskripsi | Screenshot                                                                                                                       |
+|-----------|-----------|----------------------------------------------------------------------------------------------------------------------------------|
+| HomePage | Halaman utama yang menampilkan analitik sampah, formulir pencatatan sampah, daftar sampah yang sudah dicatat, dan peta lokasi pembuangan. Fitur utama: <br>- Tampilan greeting dengan nama pengguna<br>- Toggle dark/light mode<br>- Analitik sampah harian dan mingguan<br>- Form input sampah (jenis dan berat/volume)<br>- Daftar sampah dengan fungsi edit dan hapus<br>- Peta lokasi pembuangan sampah | ![HomePage1](readmeassets/homepage1.png)<br>![HomePage2](readmeassets/homepage2.png)<br>![HomePage3](readmeassets/homepage3.png) |
+| WiseBot | Halaman chatbot yang memungkinkan pengguna untuk berinteraksi dengan WiseBot AI. Pengguna dapat menanyakan berbagai informasi tentang pengelolaan sampah, tips daur ulang, dan praktik ramah lingkungan lainnya. | ![WiseBotPage](readmeassets/wisebotpage1.png)                                                                                    |
 
 ## Penutup

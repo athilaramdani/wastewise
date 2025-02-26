@@ -1,0 +1,2 @@
+F:/motion/tubes/wastewise/android/app/.cxx/RelWithDebInfo/5re1h67p/arm64-v8a/CMakeFiles/edit_cache.dir
+F:/motion/tubes/wastewise/android/app/.cxx/RelWithDebInfo/5re1h67p/arm64-v8a/CMakeFiles/rebuild_cache.dir
