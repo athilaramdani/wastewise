@@ -61,7 +61,7 @@ class AccountView extends GetView<AccountController> {
                       const SizedBox(height: 16),
                       Text(
                         user.fullName.isNotEmpty ? user.fullName : 'Nama Lengkap',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
