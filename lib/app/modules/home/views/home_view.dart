@@ -31,7 +31,7 @@ class HomeView extends GetView<HomeController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 1) Greeting + Switch Dark/Light
+            // Greeting + Switch Dark/Light
             Obx(() {
               String userName = homeC.userName.value;
               bool isDark = homeC.isDarkMode.value;
@@ -43,7 +43,7 @@ class HomeView extends GetView<HomeController> {
             }),
             const SizedBox(height: 24),
 
-            // 2) Card Analytics
+            // Card Analytics
             Obx(() {
               double todayWaste = _calculateTodayWaste(homeC.wasteList);
               double weeklyWaste = _calculateWeeklyWaste(homeC.wasteList);
@@ -53,17 +53,16 @@ class HomeView extends GetView<HomeController> {
                 weeklyWaste: "${weeklyWaste.toStringAsFixed(1)} Kg",
                 weeklyData: dailyWasteList,
                 onTap: () {
-                  // Aksi jika card ditekan, misal buka halaman detail
                 },
               );
             }),
             const SizedBox(height: 24),
 
-            // 3) Form Input Data Sampah
+            // Form Input Data Sampah
             _buildWasteForm(context, homeC),
             const SizedBox(height: 24),
 
-            // 4) Daftar Data Sampah (menampilkan 5 data terlebih dahulu)
+            // Daftar Data Sampah (menampilkan 5 data terlebih dahulu)
             Text(
               "Daftar Sampah",
               style: Theme.of(context).textTheme.titleMedium?.copyWith(

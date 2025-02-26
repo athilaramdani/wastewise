@@ -41,7 +41,6 @@ class AccountEditController extends GetxController {
         'username': username.value,
         'dateOfBirth': dateOfBirth.value?.toIso8601String(),
       }, SetOptions(merge: true));
-      // Navigasi kembali ke halaman account
       Get.offNamed('/account');
       Get.snackbar('Berhasil', 'Profil berhasil diperbarui');
     }

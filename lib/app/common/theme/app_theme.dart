@@ -8,7 +8,7 @@ class AppTheme {
   // Variasi warna hijau lain
   static Color greenLight = const Color(0xFF66BB6A);
   static Color greenDark = const Color(0xFF388E3C);
-  static Color greenAccent = const Color(0xFFA5D6A7); // contoh hijau lebih cerah
+  static Color greenAccent = const Color(0xFFA5D6A7);
 
   // Light Theme
   static final ThemeData lightTheme = ThemeData(

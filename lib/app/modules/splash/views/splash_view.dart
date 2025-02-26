@@ -18,7 +18,7 @@ class _SplashViewState extends State<SplashView> {
   }
 
   void _navigate() async {
-    // Simulasikan proses pengecekan sesi user
+    // proses pengecekan sesi user
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
@@ -36,7 +36,6 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     // Splash screen sudah digantikan oleh flutter_native_splash,
-    // mungkin kita tetap butuh widget ini agar rute SPLASH bisa berfungsi.
     return Scaffold(
       body: Center(
         child: Image.asset(

@@ -21,14 +21,14 @@ class WasteWiseApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(360, 690), // sesuaikan dengan UI design
+      designSize: const Size(360, 690),
       builder: (context, child) {
         return GetMaterialApp(
           title: 'WasteWise',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,    // Light theme
           darkTheme: AppTheme.darkTheme, // Dark theme
-          themeMode: ThemeMode.system,   // Atur sesuai preferensi
+          themeMode: ThemeMode.system,
           initialRoute: AppPages.INITIAL,
           getPages: AppPages.routes,
         );

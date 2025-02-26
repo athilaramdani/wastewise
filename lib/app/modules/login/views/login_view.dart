@@ -57,7 +57,7 @@ class LoginView extends GetView<LoginController> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // ========== LOGO WASTEWISE ==========
+                    // logo wastewise
                     Image.asset(
                       'assets/icons/wastewise_logo.png',
                       height: 200,

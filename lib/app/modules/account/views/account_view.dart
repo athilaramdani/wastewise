@@ -27,7 +27,6 @@ class AccountView extends GetView<AccountController> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                // Header profil modern dengan gradient
                 Container(
                   width: double.infinity,
                   decoration: BoxDecoration(

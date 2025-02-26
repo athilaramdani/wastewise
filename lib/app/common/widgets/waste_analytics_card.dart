@@ -119,7 +119,7 @@ class WasteAnalyticsCard extends StatelessWidget {
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                         showTitles: true,
-                        // Tampilkan label "Day 1", "Day 2", dst.
+                        // Tampilan label "Day 1", "Day 2", dst.
                         getTitlesWidget: (double value, TitleMeta meta) {
                           int idx = value.toInt(); // 0..6
                           return Padding(
@@ -145,7 +145,7 @@ class WasteAnalyticsCard extends StatelessWidget {
     );
   }
 
-  // Helper untuk membuat list BarChartGroupData
+  // untuk membuat list BarChartGroupData
   List<BarChartGroupData> _generateBarData(List<double> weeklyData) {
     // weeklyData: misal [2.5, 1.0, 3.2, 0.0, 0.5, 2.0, 1.5]
     return List.generate(weeklyData.length, (index) {
@@ -155,7 +155,7 @@ class WasteAnalyticsCard extends StatelessWidget {
           BarChartRodData(
             toY: weeklyData[index],
             width: 16,
-            color: const Color(0xFF4CAF50), // warna hijau
+            color: const Color(0xFF4CAF50),
           ),
         ],
       );

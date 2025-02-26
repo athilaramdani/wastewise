@@ -79,3 +79,4 @@ Lihat di dokumentasi folder.
 | WiseBot | Halaman chatbot yang memungkinkan pengguna untuk berinteraksi dengan WiseBot AI. Pengguna dapat menanyakan berbagai informasi tentang pengelolaan sampah, tips daur ulang, dan praktik ramah lingkungan lainnya. | ![WiseBotPage](readmeassets/wisebotpage1.png)                                                                                    |
 
 ## Penutup
+Aplikasi WasteWise merupakan tugas besar Motion (Mobile Application Development) yang dikembangkan oleh Athila. Aplikasi ini dirancang untuk membantu pengelolaan sampah yang lebih efisien dan ramah lingkungan dengan memanfaatkan teknologi mobile.

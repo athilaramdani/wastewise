@@ -82,7 +82,7 @@ class RegisterController extends GetxController {
           'dateOfBirth': dateOfBirth.value?.toIso8601String(),
         });
       } else {
-        // Jika sudah ada, update data (opsional)
+        // Jika sudah ada, update data
         await userDoc.update({
           'fullName': fullName.value,
           'username': username.value,

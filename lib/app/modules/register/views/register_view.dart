@@ -60,7 +60,7 @@ class RegisterView extends GetView<RegisterController> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // ========== LOGO WASTEWISE ==========
+                      // logo wastewise
                       Image.asset(
                         'assets/icons/wastewise_logo.png',
                         height: 200,
@@ -211,7 +211,7 @@ class RegisterView extends GetView<RegisterController> {
                       ),
                       const SizedBox(height: 16),
 
-                      // =========== TOMBOL REGISTER WITH GOOGLE ===========
+                      // TOMBOL REGISTER WITH GOOGLE
                       ElevatedButton.icon(
                         onPressed: () {
                           // Validasi minimal input fullName & username
@@ -246,7 +246,7 @@ class RegisterView extends GetView<RegisterController> {
                           ),
                         ),
                       ),
-                      // =========== END REGISTER WITH GOOGLE ===========
+                      // done beres
 
                       const SizedBox(height: 16),
 

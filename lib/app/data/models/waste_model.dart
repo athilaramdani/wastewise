@@ -4,9 +4,7 @@ class WasteModel {
   String type;   // organik, plastik, kertas, dsb
   double amount; // berat / volume
   DateTime date; // tanggal pencatatan
-
-  // === Tambahan koordinat ===
-  double? latitude;
+  double? latitude; //koordinat untuk api openstreetmap
   double? longitude;
 
   WasteModel({
