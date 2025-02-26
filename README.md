@@ -1,4 +1,5 @@
 # WasteWise
+![Banner](readmeassets/banner.png)
 Aplikasi **WasteWise** — Manajemen Sampah & Daur Ulang
 
 ## Gambaran Singkat
