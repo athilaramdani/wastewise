@@ -36,13 +36,13 @@ class AccountEditController extends GetxController {
     final firebaseUser = _auth.currentUser;
     if (firebaseUser != null) {
       final userDocRef = _firestore.collection('users').doc(firebaseUser.uid);
-      // Menggunakan set dengan merge:true agar dokumen dibuat jika belum ada
       await userDocRef.set({
         'fullName': fullName.value,
         'username': username.value,
         'dateOfBirth': dateOfBirth.value?.toIso8601String(),
       }, SetOptions(merge: true));
-      Get.back(); // Kembali ke halaman sebelumnya
+      // Navigasi kembali ke halaman account
+      Get.offNamed('/account');
       Get.snackbar('Berhasil', 'Profil berhasil diperbarui');
     }
   }

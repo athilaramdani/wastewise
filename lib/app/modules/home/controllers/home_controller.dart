@@ -8,7 +8,7 @@ import '../../../data/providers/firebase_provider.dart';
 class HomeController extends GetxController {
   final FirebaseProvider _firebaseProvider = FirebaseProvider();
 
-  // Waste current user
+  // Waste milik current user
   var wasteList = <WasteModel>[].obs;
   // Waste dari user lain
   var otherWasteList = <WasteModel>[].obs;
@@ -20,7 +20,7 @@ class HomeController extends GetxController {
   var wasteType = ''.obs;
   var wasteAmount = 0.0.obs;
 
-  // Tambahkan TextEditingController untuk form input
+  // Tambahan TextEditingController untuk form input
   final TextEditingController wasteTypeController = TextEditingController();
   final TextEditingController wasteAmountController = TextEditingController();
 
@@ -30,6 +30,9 @@ class HomeController extends GetxController {
 
   // Dark mode toggle
   var isDarkMode = false.obs;
+
+  // Variabel untuk mengatur tampilan daftar sampah (5 data atau semua)
+  var showAllWaste = false.obs;
 
   @override
   void onInit() {

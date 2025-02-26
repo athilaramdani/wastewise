@@ -47,8 +47,7 @@ class HomeView extends GetView<HomeController> {
             Obx(() {
               double todayWaste = _calculateTodayWaste(homeC.wasteList);
               double weeklyWaste = _calculateWeeklyWaste(homeC.wasteList);
-              List<double> dailyWasteList =
-              _calculateDailyWasteFor7Days(homeC.wasteList);
+              List<double> dailyWasteList = _calculateDailyWasteFor7Days(homeC.wasteList);
               return WasteAnalyticsCard(
                 totalWaste: "${todayWaste.toStringAsFixed(1)} Kg",
                 weeklyWaste: "${weeklyWaste.toStringAsFixed(1)} Kg",
@@ -60,11 +59,11 @@ class HomeView extends GetView<HomeController> {
             }),
             const SizedBox(height: 24),
 
-            // 3) Form Input Data Sampah (menggunakan controller dari HomeController)
+            // 3) Form Input Data Sampah
             _buildWasteForm(context, homeC),
             const SizedBox(height: 24),
 
-            // 4) Daftar Data Sampah
+            // 4) Daftar Data Sampah (menampilkan 5 data terlebih dahulu)
             Text(
               "Daftar Sampah",
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -79,19 +78,34 @@ class HomeView extends GetView<HomeController> {
                   child: Text('Belum ada data sampah yang dicatat.'),
                 );
               }
-              return ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: homeC.wasteList.length,
-                itemBuilder: (context, index) {
-                  final waste = homeC.wasteList[index];
-                  return _buildWasteItem(context, waste);
-                },
+              final list = homeC.wasteList;
+              final showAll = homeC.showAllWaste.value;
+              final itemCount = showAll ? list.length : (list.length > 5 ? 5 : list.length);
+              return Column(
+                children: [
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: itemCount,
+                    itemBuilder: (context, index) {
+                      final waste = list[index];
+                      return _buildWasteItem(context, waste);
+                    },
+                  ),
+                  if (!showAll && list.length > 5)
+                    TextButton(
+                      onPressed: () {
+                        homeC.showAllWaste.value = true;
+                      },
+                      child: const Text("Tampilkan Semua"),
+                    ),
+                ],
               );
             }),
             const SizedBox(height: 24),
 
-            // 5) Peta OSM: tampilkan marker lokasi user (biru) dan marker waste ORANG LAIN (hijau)
+            // 5) Peta OSM: tampilkan marker lokasi user (biru), waste orang lain (hijau)
+            //    dan waste milik user (merah)
             Text(
               "Lokasi Pembuangan Sampah",
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -117,7 +131,6 @@ class HomeView extends GetView<HomeController> {
                     initialZoom: 14.0,
                   ),
                   children: [
-                    // Hapus subdomains untuk menghindari warning OSM
                     TileLayer(
                       urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                     ),
@@ -134,7 +147,7 @@ class HomeView extends GetView<HomeController> {
                             size: 40,
                           ),
                         ),
-                        // Marker untuk waste ORANG LAIN (hijau)
+                        // Marker untuk waste orang lain (hijau)
                         ...homeC.otherWasteList.map((w) {
                           if (w.latitude != null && w.longitude != null) {
                             return Marker(
@@ -161,6 +174,46 @@ class HomeView extends GetView<HomeController> {
                                 child: const Icon(
                                   Icons.delete,
                                   color: Colors.green,
+                                  size: 40,
+                                ),
+                              ),
+                            );
+                          } else {
+                            return Marker(
+                              width: 0,
+                              height: 0,
+                              point: lat_lng.LatLng(0, 0),
+                              child: const SizedBox(),
+                            );
+                          }
+                        }).toList(),
+                        // Marker untuk waste milik user (merah)
+                        ...homeC.wasteList.map((w) {
+                          if (w.latitude != null && w.longitude != null) {
+                            return Marker(
+                              width: 80.0,
+                              height: 80.0,
+                              point: lat_lng.LatLng(w.latitude!, w.longitude!),
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                      title: const Text("Detail Sampah (Anda)"),
+                                      content: Text(
+                                          "Jenis: ${w.type}\nBerat/Volume: ${w.amount} Kg/L"),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(context),
+                                          child: const Text("Tutup"),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                child: const Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
                                   size: 40,
                                 ),
                               ),
@@ -268,8 +321,7 @@ class HomeView extends GetView<HomeController> {
   void _showEditDialog(BuildContext context, WasteModel waste) {
     final homeC = Get.find<HomeController>();
     final typeController = TextEditingController(text: waste.type);
-    final amountController =
-    TextEditingController(text: waste.amount.toString());
+    final amountController = TextEditingController(text: waste.amount.toString());
     showDialog(
       context: context,
       builder: (_) {
@@ -297,8 +349,7 @@ class HomeView extends GetView<HomeController> {
             ElevatedButton(
               onPressed: () {
                 final newType = typeController.text.trim();
-                final newAmount =
-                    double.tryParse(amountController.text.trim()) ?? 0.0;
+                final newAmount = double.tryParse(amountController.text.trim()) ?? 0.0;
                 homeC.updateWaste(waste, newType, newAmount);
                 Navigator.pop(context);
               },

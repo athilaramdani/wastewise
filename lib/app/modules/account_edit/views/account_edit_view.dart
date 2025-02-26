@@ -12,6 +12,10 @@ class AccountEditView extends GetView<AccountEditController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Get.offAllNamed('/account'),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -26,9 +30,8 @@ class AccountEditView extends GetView<AccountEditController> {
                   labelText: 'Nama Lengkap',
                 ),
                 onChanged: (val) => controller.fullName.value = val,
-                validator: (val) => val == null || val.isEmpty
-                    ? 'Masukkan nama lengkap'
-                    : null,
+                validator: (val) =>
+                val == null || val.isEmpty ? 'Masukkan nama lengkap' : null,
               )),
               const SizedBox(height: 16),
               // Field untuk Username
@@ -38,9 +41,8 @@ class AccountEditView extends GetView<AccountEditController> {
                   labelText: 'Username',
                 ),
                 onChanged: (val) => controller.username.value = val,
-                validator: (val) => val == null || val.isEmpty
-                    ? 'Masukkan username'
-                    : null,
+                validator: (val) =>
+                val == null || val.isEmpty ? 'Masukkan username' : null,
               )),
               const SizedBox(height: 16),
               // Field untuk Tanggal Lahir dengan DatePicker
@@ -54,8 +56,8 @@ class AccountEditView extends GetView<AccountEditController> {
                         : 'Pilih tanggal lahir',
                   ),
                   onTap: () async {
-                    DateTime initialDate = controller.dateOfBirth.value ??
-                        DateTime(2000, 1, 1);
+                    DateTime initialDate =
+                        controller.dateOfBirth.value ?? DateTime(2000, 1, 1);
                     DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: initialDate,
