@@ -47,5 +47,7 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSLocationWhenInUseUsageDescription</key>
+        <string>App ini membutuhkan akses lokasi untuk menampilkan peta dan fitur lain yang berkaitan.</string>
 	</dict>
 </plist>

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart' as lat_lng;
+import 'package:flutter_map/flutter_map.dart';
 
 import 'package:wastewise/app/common/widgets/custom_bottombar.dart';
 import 'package:wastewise/app/common/widgets/greeting_header.dart';
@@ -23,9 +25,7 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
         elevation: 0,
       ),
-
       bottomNavigationBar: const CustomBottomNavBar(currentIndex: 0),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
         child: Column(
@@ -33,29 +33,22 @@ class HomeView extends GetView<HomeController> {
           children: [
             // 1) Greeting + Switch Dark/Light
             Obx(() {
-              String userName = homeC.userName.value;  // ambil dari controller
+              String userName = homeC.userName.value;
               bool isDark = homeC.isDarkMode.value;
-
               return GreetingHeader(
                 userName: userName.isEmpty ? "User" : userName,
                 isDarkMode: isDark,
                 onThemeChanged: (val) => homeC.toggleTheme(val),
               );
             }),
-
             const SizedBox(height: 24),
 
             // 2) Card Analytics
             Obx(() {
-              // Hitung total waste hari ini
               double todayWaste = _calculateTodayWaste(homeC.wasteList);
-              // Hitung total waste 7 hari terakhir
               double weeklyWaste = _calculateWeeklyWaste(homeC.wasteList);
-
-              // Bikin data harian 7 hari terakhir [day1, day2, ..., day7]
               List<double> dailyWasteList =
               _calculateDailyWasteFor7Days(homeC.wasteList);
-
               return WasteAnalyticsCard(
                 totalWaste: "${todayWaste.toStringAsFixed(1)} Kg",
                 weeklyWaste: "${weeklyWaste.toStringAsFixed(1)} Kg",
@@ -65,12 +58,10 @@ class HomeView extends GetView<HomeController> {
                 },
               );
             }),
-
             const SizedBox(height: 24),
 
-            // 3) Form Input Data Sampah
+            // 3) Form Input Data Sampah (menggunakan controller dari HomeController)
             _buildWasteForm(context, homeC),
-
             const SizedBox(height: 24),
 
             // 4) Daftar Data Sampah
@@ -80,7 +71,6 @@ class HomeView extends GetView<HomeController> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 8),
             Obx(() {
               if (homeC.wasteList.isEmpty) {
@@ -89,7 +79,6 @@ class HomeView extends GetView<HomeController> {
                   child: Text('Belum ada data sampah yang dicatat.'),
                 );
               }
-
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -100,13 +89,103 @@ class HomeView extends GetView<HomeController> {
                 },
               );
             }),
+            const SizedBox(height: 24),
+
+            // 5) Peta OSM: tampilkan marker lokasi user (biru) dan marker waste ORANG LAIN (hijau)
+            Text(
+              "Lokasi Pembuangan Sampah",
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Obx(() {
+              double lat = homeC.currentLat.value;
+              double lng = homeC.currentLng.value;
+              if (lat == 0.0 && lng == 0.0) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return Container(
+                height: 300,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: FlutterMap(
+                  options: MapOptions(
+                    initialCenter: lat_lng.LatLng(lat, lng),
+                    initialZoom: 14.0,
+                  ),
+                  children: [
+                    // Hapus subdomains untuk menghindari warning OSM
+                    TileLayer(
+                      urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    ),
+                    MarkerLayer(
+                      markers: [
+                        // Marker lokasi user (biru)
+                        Marker(
+                          width: 80.0,
+                          height: 80.0,
+                          point: lat_lng.LatLng(lat, lng),
+                          child: const Icon(
+                            Icons.person_pin_circle,
+                            color: Colors.blue,
+                            size: 40,
+                          ),
+                        ),
+                        // Marker untuk waste ORANG LAIN (hijau)
+                        ...homeC.otherWasteList.map((w) {
+                          if (w.latitude != null && w.longitude != null) {
+                            return Marker(
+                              width: 80.0,
+                              height: 80.0,
+                              point: lat_lng.LatLng(w.latitude!, w.longitude!),
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                      title: const Text("Detail Sampah"),
+                                      content: Text(
+                                          "Jenis: ${w.type}\nBerat/Volume: ${w.amount} Kg/L"),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(context),
+                                          child: const Text("Tutup"),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                child: const Icon(
+                                  Icons.delete,
+                                  color: Colors.green,
+                                  size: 40,
+                                ),
+                              ),
+                            );
+                          } else {
+                            return Marker(
+                              width: 0,
+                              height: 0,
+                              point: lat_lng.LatLng(0, 0),
+                              child: const SizedBox(),
+                            );
+                          }
+                        }).toList(),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }),
           ],
         ),
       ),
     );
   }
 
-  /// Widget form perekaman sampah
   Widget _buildWasteForm(BuildContext context, HomeController homeC) {
     return Card(
       shape: RoundedRectangleBorder(
@@ -125,6 +204,7 @@ class HomeView extends GetView<HomeController> {
             ),
             const SizedBox(height: 16),
             TextField(
+              controller: homeC.wasteTypeController,
               onChanged: (val) => homeC.wasteType.value = val,
               decoration: const InputDecoration(
                 labelText: 'Jenis Sampah',
@@ -133,9 +213,10 @@ class HomeView extends GetView<HomeController> {
             ),
             const SizedBox(height: 8),
             TextField(
-              onChanged: (val) =>
-              homeC.wasteAmount.value = double.tryParse(val) ?? 0.0,
+              controller: homeC.wasteAmountController,
               keyboardType: TextInputType.number,
+              onChanged: (val) => homeC.wasteAmount.value =
+                  double.tryParse(val) ?? 0.0,
               decoration: const InputDecoration(
                 labelText: 'Berat/Volume (Kg/L)',
                 hintText: 'Contoh: 2.5 (Kg)',
@@ -143,7 +224,9 @@ class HomeView extends GetView<HomeController> {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () => homeC.addWaste(),
+              onPressed: () async {
+                await homeC.addWaste();
+              },
               child: const Text('Tambah Data Sampah'),
             ),
           ],
@@ -152,7 +235,6 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  /// Widget item data waste
   Widget _buildWasteItem(BuildContext context, WasteModel waste) {
     final homeC = Get.find<HomeController>();
     return Card(
@@ -183,13 +265,11 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  /// Dialog edit
   void _showEditDialog(BuildContext context, WasteModel waste) {
     final homeC = Get.find<HomeController>();
     final typeController = TextEditingController(text: waste.type);
     final amountController =
     TextEditingController(text: waste.amount.toString());
-
     showDialog(
       context: context,
       builder: (_) {
@@ -200,13 +280,11 @@ class HomeView extends GetView<HomeController> {
             children: [
               TextField(
                 controller: typeController,
-                decoration:
-                const InputDecoration(labelText: 'Jenis Sampah'),
+                decoration: const InputDecoration(labelText: 'Jenis Sampah'),
               ),
               TextField(
                 controller: amountController,
-                decoration:
-                const InputDecoration(labelText: 'Berat/Volume'),
+                decoration: const InputDecoration(labelText: 'Berat/Volume'),
                 keyboardType: TextInputType.number,
               ),
             ],
@@ -232,42 +310,37 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  /// Hitung total sampah HARI INI
   double _calculateTodayWaste(List<WasteModel> list) {
-    DateTime now = DateTime.now();
-    return list.where((w) {
-      return w.date.year == now.year &&
-          w.date.month == now.month &&
-          w.date.day == now.day;
-    }).fold(0.0, (sum, w) => sum + w.amount);
+    final now = DateTime.now();
+    return list
+        .where((w) =>
+    w.date.year == now.year &&
+        w.date.month == now.month &&
+        w.date.day == now.day)
+        .fold(0.0, (sum, w) => sum + w.amount);
   }
 
-  /// Hitung total sampah MINGGU INI (7 hari ke belakang)
   double _calculateWeeklyWaste(List<WasteModel> list) {
-    DateTime now = DateTime.now();
-    DateTime sevenDaysAgo = now.subtract(const Duration(days: 7));
-    return list.where((w) {
-      return w.date.isAfter(sevenDaysAgo) &&
-          w.date.isBefore(now.add(const Duration(days: 1)));
-    }).fold(0.0, (sum, w) => sum + w.amount);
+    final now = DateTime.now();
+    final sevenDaysAgo = now.subtract(const Duration(days: 7));
+    return list
+        .where((w) =>
+    w.date.isAfter(sevenDaysAgo) &&
+        w.date.isBefore(now.add(const Duration(days: 1))))
+        .fold(0.0, (sum, w) => sum + w.amount);
   }
 
-  /// Hitung sampah harian 7 hari terakhir: [day1, day2, ..., day7]
-  /// Urutan day1 = 7 hari lalu, day7 = hari ini
   List<double> _calculateDailyWasteFor7Days(List<WasteModel> list) {
     List<double> dailyData = List.filled(7, 0.0);
-
-    DateTime now = DateTime.now();
+    final now = DateTime.now();
     for (int i = 0; i < 7; i++) {
-      // Hari ke-i dihitung mundur
-      DateTime day = now.subtract(Duration(days: 6 - i));
-      // day di sini mulai dari 6 hari lalu hingga 0 hari lalu (hari ini)
-      double sumWaste = list.where((w) {
-        return w.date.year == day.year &&
-            w.date.month == day.month &&
-            w.date.day == day.day;
-      }).fold(0.0, (sum, w) => sum + w.amount);
-
+      final day = now.subtract(Duration(days: 6 - i));
+      final sumWaste = list
+          .where((w) =>
+      w.date.year == day.year &&
+          w.date.month == day.month &&
+          w.date.day == day.day)
+          .fold(0.0, (sum, w) => sum + w.amount);
       dailyData[i] = sumWaste;
     }
     return dailyData;

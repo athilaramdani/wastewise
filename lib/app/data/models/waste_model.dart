@@ -1,9 +1,13 @@
 class WasteModel {
   String? id;
-  String userId; // Field baru untuk menyimpan ID user
+  String userId; // Field untuk menyimpan ID user
   String type;   // organik, plastik, kertas, dsb
   double amount; // berat / volume
   DateTime date; // tanggal pencatatan
+
+  // === Tambahan koordinat ===
+  double? latitude;
+  double? longitude;
 
   WasteModel({
     this.id,
@@ -11,6 +15,8 @@ class WasteModel {
     required this.type,
     required this.amount,
     required this.date,
+    this.latitude,
+    this.longitude,
   });
 
   // Konversi ke Map (untuk Firestore)
@@ -20,6 +26,8 @@ class WasteModel {
       'type': type,
       'amount': amount,
       'date': date.toIso8601String(),
+      'latitude': latitude,
+      'longitude': longitude,
     };
   }
 
@@ -31,6 +39,14 @@ class WasteModel {
       type: data['type'] ?? '',
       amount: (data['amount'] ?? 0).toDouble(),
       date: DateTime.parse(data['date'] ?? DateTime.now().toIso8601String()),
+
+      // baca latitude & longitude, jika ada
+      latitude: (data['latitude'] != null)
+          ? (data['latitude'] as num).toDouble()
+          : null,
+      longitude: (data['longitude'] != null)
+          ? (data['longitude'] as num).toDouble()
+          : null,
     );
   }
 }

@@ -5,7 +5,6 @@ class FirebaseProvider {
   final CollectionReference wasteCollection =
   FirebaseFirestore.instance.collection('waste_records');
 
-  // Misal user disimpan di "users" collection:
   final CollectionReference userCollection =
   FirebaseFirestore.instance.collection('users');
 
@@ -13,10 +12,19 @@ class FirebaseProvider {
     await wasteCollection.add(waste.toMap());
   }
 
-  // Ambil data sampah berdasarkan userId
+  // Ambil waste milik current user
   Future<List<WasteModel>> getWasteByUser(String userId) async {
     final querySnapshot =
     await wasteCollection.where('userId', isEqualTo: userId).get();
+    return querySnapshot.docs
+        .map((doc) =>
+        WasteModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+        .toList();
+  }
+
+  // Ambil semua waste dari Firestore
+  Future<List<WasteModel>> getAllWaste() async {
+    final querySnapshot = await wasteCollection.get();
     return querySnapshot.docs
         .map((doc) =>
         WasteModel.fromMap(doc.id, doc.data() as Map<String, dynamic>))
@@ -33,9 +41,6 @@ class FirebaseProvider {
     await wasteCollection.doc(wasteId).delete();
   }
 
-  // =====================================================
-  // BARU: Get userName
-  // =====================================================
   Future<String> getUserName(String userId) async {
     final docRef = userCollection.doc(userId);
     final snapshot = await docRef.get();
