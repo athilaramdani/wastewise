@@ -64,8 +64,8 @@ Lihat di dokumentasi folder.
 
 ## Tambah / Update / Delete Catatan Sampah
 
-- Tambah sampah: Tekan tombol + (icon di AppBar), isi form, klik simpan.
-- Update sampah: Tekan list item, form edit muncul, update, simpan.
+- Tambah sampah: Tekan tombol + (icon di AppBar), isi form, klik simpan,
+- Update sampah: Tekan list item, form edit muncul, update, simpan,
 - Hapus sampah: Tekan icon delete pada list item.
 
 ## Screenshot
